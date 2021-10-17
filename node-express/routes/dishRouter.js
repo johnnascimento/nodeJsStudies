@@ -1,14 +1,17 @@
 const express = require('express'),
+    bodyParser = require('body-parser'),
     dishRouter = express.Router();
 
-dishRouter.use(express.json());
+console.log('bodyParser', bodyParser.json);
 
+dishRouter.use(bodyParser.json());
 dishRouter.route('/')
     .all((req, res, next) => {
         console.log('/dishes was hit');
 
         res.statusCode = 200;
         res.setHeader('Content-Type', 'text/plain');
+        next();
     })
 
     .get((req, res, next) => {

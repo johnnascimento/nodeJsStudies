@@ -1,15 +1,16 @@
 const express = require('express'),
   http = require('http'),
   morgan = require('morgan'),
+  bodyParser = require('body-parser'),
+  dishRouter = require('./routes/dishRouter'),
   hostname = 'localhost',
   port = 3000,
-  app = express(),
-  dishRouter = require('./routes/dishRouter');
+  app = express();
 
 app.use(morgan('dev'));
-app.use(express.static(__dirname + '/public'));
-app.use(express.json());
+app.use(bodyParser.json());
 app.use('/dishes', dishRouter);
+app.use(express.static(__dirname + '/public'));
 
 app.get('/dishes/:dishId', (req, res, next) => {
   res.end('Will send etails of the dish: ' + req.params.dishId + ' to you!');
