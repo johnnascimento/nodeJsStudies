@@ -24,5 +24,8 @@
   "bugs": {
     "url": "https://github.com/johnnascimento/nodeJsStudies/issues"
   },
-  "homepage": "https://github.com/johnnascimento/nodeJsStudies#readme"
+  "homepage": "https://github.com/johnnascimento/nodeJsStudies#readme",
+  "dependencies": {
+    "express-generator": "^4.16.1"
+  }
 }
