@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
+// Importing controllers
+var ctrlIndex = require('../controllers/index');
+console.log('ctrlIndex', ctrlIndex);
+
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', ctrlIndex.homepage);
 
 module.exports = router;
