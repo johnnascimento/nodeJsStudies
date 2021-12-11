@@ -12,8 +12,11 @@ let objEntry = {
   "description": "Test 2"
 };
 
-let objUpdated = {
-  "name": "vadonut",
+let entryToUpdate = {
+  "name": 'vadonut'
+};
+
+let entryValueUpdated = {
   "description": "vadonut\'s description"
 };
 
@@ -30,7 +33,7 @@ MongoClient.connect(url, (err, client) => {
       dboper.findDocument(db, 'dishes', (docs) => {
         console.log('Found Document \n', docs);
         
-        dboper.updateDocument(db, {name: 'vadonut'}, {description: 'Updated description'}, 'dishes', (result) => {
+        dboper.updateDocument(db, entryToUpdate, entryValueUpdated, 'dishes', (result) => {
           console.log('Updated document:\n', result.result);
           
           dboper.findDocument(db, 'dishes', (docs) => {
