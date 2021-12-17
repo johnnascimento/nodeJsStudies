@@ -1,0 +1,26 @@
+{
+  "name": "nde-mongoose-studies",
+  "version": "1.0.0",
+  "description": "This package was created to help me out achieving a higher level of skill in nodejs development using mongoDB and mongoose node module\u001b[1;5D\u001b[1;5D\u001b[1;5D\u001b[1;5D\u001b[1;5D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
+  },
+  "keywords": [
+    "mongoose",
+    "nodejs",
+    "node",
+    "mongodb",
+    "mongo",
+    "DB",
+    "nosql",
+    "full-stack",
+    "fullStack"
+  ],
+  "author": "John Lenon Nascimento da Silva",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.1.7"
+  }
+}
