@@ -50,7 +50,8 @@ const dishSchema = new Schema(
         label: {
             type: String,
             default: ''
-        },price: {
+        },
+        price: {
             type: Currency,
             required: true,
             min: 0
