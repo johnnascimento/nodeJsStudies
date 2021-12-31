@@ -24,4 +24,17 @@ dishRouter.route('/:dishId')
     .put(ctrlDish.putDish)
     .delete(ctrlDish.deleteDish)
 
+// /dishes/:dishId/comments
+dishRouter.route('/:dishId/comments')
+    .get(ctrlDish.getDishComments)
+    .post(ctrlDish.postDishComments)
+    .put(ctrlDish.putDishComments)
+    .delete(ctrlDish.deleteDishComments)
+
+// dishes/:dishId/comments/:commentId
+dishRouter.route('/:dishId/comments/:commentId')
+    .get(ctrlDish.getSingleComment)
+    .post(ctrlDish.postSingleComment)
+    .put(ctrlDish.putSingleComment)
+    .delete(ctrlDish.deleteSingleComment)
 module.exports = dishRouter;
