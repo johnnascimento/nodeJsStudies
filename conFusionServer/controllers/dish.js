@@ -1,6 +1,6 @@
 const { rmSync } = require('fs');
-const mongoose = require('mongoose'),
-    Dishes = require('../models/dishes');
+const mongoose = require('mongoose');
+const Dishes = require('../models/dishes');
 
 module.exports = {
     getDishes: (req, res, next) => {
@@ -22,11 +22,11 @@ module.exports = {
         Dishes.create(req.body)
         .then(
             (dish) => {
-            console.log('Dish Created ', dish);
+                console.log('Dish Created ', dish);
 
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'application/json');
-            res.json(dish);
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(dish);
             },
             (err) => next(err)
         )

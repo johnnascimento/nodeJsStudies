@@ -2,9 +2,9 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     dishRouter = express.Router();
 
-dishRouter.use(bodyParser.json());
+console.log('bodyParser', bodyParser.json);
 
-// Controllers
+// Controller
 const ctrlDish = require('../controllers/dish');
 console.log('ctrlDish', ctrlDish);
 
