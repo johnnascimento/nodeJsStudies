@@ -30,9 +30,12 @@ var leaderSchema = new Schema(
             type: String,
             required: true
         }
+    },
+    {
+        timestamps: true
     }
 );
 
-var Leaders = mongoose.model('leaderSchema', leaderSchema);
+var Leaders = mongoose.model('Leader', leaderSchema);
 
 module.exports = Leaders;

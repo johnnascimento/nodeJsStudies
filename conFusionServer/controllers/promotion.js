@@ -34,15 +34,34 @@ module.exports = {
     },
 
     putPromotions: (req, res, next) => {
+        res.statusCode = 403;
         res.end('PUT operation not supported on /promotions');
     },
 
     deletePromotions: (req, res, next) => {
-        res.end('Deleting all promotions');
+        Promotions.remove({})
+        .then(
+            (resp) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(resp);
+            },
+            (err) => next(err)
+        )
+        .catch((err) => next(err));
     },
 
     getPromotion: (req, res, next) => {
-        res.end('Will send details of the promotion: ' + req.params.promotionId + ' to you!');
+        Promotions.findById(req.params.promotionId)
+        .then(
+            (promotion) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(promotion);
+            },
+            (err) => next(err)
+        )
+        .catch((err) => next(err));
     },
 
     postPromotion: (req, res, next) => {
@@ -51,11 +70,36 @@ module.exports = {
     },
 
     putPromotion: (req, res, next) => {
-        res.write('Updating the promotion: ' + req.params.promotionId + '\n');
-        res.end('Will update the promotion: ' + req.body.name + ' with details: ' + req.body.description);
+        Promotions.findByIdAndUpdate(
+            req.params.promotionId,
+            {
+                $set: req.body
+            },
+            {
+                new: true
+            }
+        )
+        .then(
+            (promotion) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(promotion);
+            },
+            (err) => next(err)
+        )
+        .catch((err) => next(err));
     },
 
     deletePromotion: (req, res, next) => {
-        res.end('Will delete the promotion: ' + req.params.promotionId);
+        Promotions.findByIdAndRemove(req.params.promotionId)
+        .then(
+            (promotion) => {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(promotion);
+            },
+            (err) => next(err)
+        )
+        .catch((err) => next(err));
     }
 };

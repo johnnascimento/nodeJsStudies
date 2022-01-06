@@ -17,7 +17,8 @@ promoRouter.route('/')
     .put(ctrlPromotion.putPromotions)
     .delete(ctrlPromotion.deletePromotions);
 
-promoRouter.route('/:promoId')
+// promotions/:promotionId route
+promoRouter.route('/:promotionId')
     .get(ctrlPromotion.getPromotion)
     .post(ctrlPromotion.postPromotion)
     .put(ctrlPromotion.putPromotion)
