@@ -1,6 +1,6 @@
-const { rmSync } = require('fs');
-const mongoose = require('mongoose');
-const Dishes = require('../models/dishes');
+const { rmSync } = require('fs'),
+    mongoose = require('mongoose'),
+    Dishes = require('../models/dishes');
 
 module.exports = {
     getDishes: (req, res, next) => {
@@ -110,7 +110,7 @@ module.exports = {
                     res.json(dish.comments);
                 } else {
                     let commentErr = new Error('Dish ' + req.params.dishId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 }
             }, (err) => next(err)
@@ -135,7 +135,7 @@ module.exports = {
                     )
                 } else {
                     let commentErr = new Error('Dish ' + req.params.dishId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
 
                 }
@@ -172,7 +172,7 @@ module.exports = {
                     )
                 } else {
                     let commentErr = new Error('Dish ' + req.params.dishId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr)
                 }
             },
@@ -193,11 +193,11 @@ module.exports = {
                     res.json(dish.comments.id(req.params.commentId));
                 } else if (dish == null) {
                     commentErr = new Error('Dish ' + req.params.dishId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 } else {
                     commentErr = new Error('Comment ' + req.params.commentId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 }
             },
@@ -236,11 +236,11 @@ module.exports = {
                     );
                 } else if (dish == null) {
                     commentErr = new Error('Dish ' + req.params.dishId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 } else {
                     commentErr = new Error('Comment ' + req.params.commentId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 }
             }
@@ -267,11 +267,11 @@ module.exports = {
                     )
                 } else if (dish == null) {
                     commentErr = new Error('Dish ' + req.params.dishId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 } else {
                     commentErr = new Error('Comment ' + req.params.commentId + ' not found');
-                    commentErr.statusCode = 404;
+                    commentErr.status = 404;
                     return next(commentErr);
                 }
             },

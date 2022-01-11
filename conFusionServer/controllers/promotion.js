@@ -1,6 +1,6 @@
-const { rmSync } = require('fs');
-const mongoose = require('mongoose');
-const Promotions = require('../models/promotions');
+const { rmSync } = require('fs'),
+    mongoose = require('mongoose'),
+    Promotions = require('../models/promotions');
 
 module.exports = {
     getPromotions: (req, res, next) => {

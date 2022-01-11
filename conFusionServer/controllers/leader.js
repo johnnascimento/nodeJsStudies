@@ -1,6 +1,6 @@
-const { rmSync } = require('fs');
-const mongoose = require('mongoose');
-const Leaders = require('../models/leaders');
+const { rmSync } = require('fs'),
+    mongoose = require('mongoose'),
+    Leaders = require('../models/leaders');
 
 module.exports = {
     getLeaders: (req, res, next) => {
