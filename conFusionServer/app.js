@@ -32,7 +32,7 @@ var expressUrlEncodeSettings = express.urlencoded({
 var sessionSettings = session({
   name: 'session-id',
   secret: '1234-5678-9101112-13141516',
-  saveUnitialized: false,
+  saveUninitialized: false,
   resave: false,
   store: new FileStore()
 });
@@ -137,8 +137,8 @@ var notFoundHandler = (req, res, next) => {
 // ---------------------- //
 // Importing router files //
 // ---------------------- //
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var indexRouter = require('./routes/indexRouter');
+var usersRouter = require('./routes/usersRouter');
 var dishRouter = require('./routes/dishRouter');
 var promoRouter = require('./routes/promoRouter');
 var leaderRouter = require('./routes/leaderRouter');

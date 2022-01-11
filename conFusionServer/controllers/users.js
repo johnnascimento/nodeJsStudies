@@ -37,7 +37,7 @@ module.exports = {
             .then(
                 (user) => {
                     if (user === null) {
-                        var err = new Error('User' + username + 'does not exists!');
+                        var err = new Error('User ' + username + ' does not exists!');
 
                         err.status = 403;
 
@@ -49,7 +49,7 @@ module.exports = {
 
                         next(err);
                     } else if (user.username === username && user.password === password) {
-                        req.sesssion.user = 'authenticated';
+                        req.session.user = 'authenticated';
                         res.statusCode = 200;
                         res.setHeader('Content-Type', 'text/plain');
                         res.end('You are authenticated!');
@@ -100,7 +100,7 @@ module.exports = {
     },
 
     logOut: (req, res, next) => {
-        if (req.sesseion) {
+        if (req.session) {
             req.session.destroy();
             res.clearCookie('session-id');
             res.redirect('/');
