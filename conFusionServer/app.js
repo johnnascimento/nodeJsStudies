@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser'); // Install module before start test
 var logger = require('morgan');
 var session = require('express-session'); // Install typing npm install express-session@1.15.6 session-file-store@1.2.0 -- save
 var FileStore = require('session-file-store')(session);
+var passport = require('passport');
+var authenticate = require('./authenticate');
 
 const mongoose = require('mongoose');
 
@@ -39,31 +41,16 @@ var sessionSettings = session({
 
 // Authentication method using session
 var auth = (req, res, next) => {
-  var reqSession = req.session;
-  var reqSessionUser = req.session.user;
-  var reqHeaders = req.headers;
+  var reqSessionUser = req.user;
 
-  console.log(reqHeaders);
-  console.log('reqSession', reqSession);
+  console.log('reqSessionUser', reqSessionUser);
 
   if (!reqSessionUser) {
     var err = new Error('You are not authenticated!');
-
-    err.status = 401;
-
+    err.status = 403;
     return next(err);
   } else {
-    if (reqSessionUser === 'authenticated') {
-      console.log('reqSessionUser', reqSessionUser);
-
-      next();
-    } else {
-      var err = new Error('You are not authenticated!');
-
-      err.status = 403;
-
-      next(err);
-    }
+    next(err);
   }
 };
 
@@ -87,38 +74,38 @@ var notFoundHandler = (req, res, next) => {
   var signedCookies = req.signedCookies;
   var signedCookiesUser = req.signedCookies.user;
   var reqHeaders = req.headers;
-  
+
   console.log(reqHeaders);
   console.log(signedCookies);
   console.log(signedCookiesUser);
-  
+
   if (!signedCookiesUser) {
     var authHeader = req.headers.authorization;
-    
+
     if (!authorization) {
       var err = new Error('You are not authenticated!');
-    
+
       res.setHeader('WWW-authenticate', 'Basic');
       err.status = 401;
-    
+
       return next(err);
     }
     var authHeaderToken = authHeader.split(' ')[1];
     var auth = new Buffer.from(authHeaderToken, 'base64').toString().split(':');
-    
+
     var username = auth[0];
     var password = auth[1];
-    
+
     if (username === 'admin' && password === 'password') {
       res.cookie('user', 'admin', { signed: true });
-      
+
       next();
     } else {
       var err = new Error('You are not authenticated!');
-    
+
       res.setHeader('WWW-authenticate', 'Basic');
       err.status = 401;
-    
+
       return next(err);
     }
   } else {
@@ -126,9 +113,9 @@ var notFoundHandler = (req, res, next) => {
       next()
     } else {
       var err = new Error('You are not authenticated!');
-      
+
       err.status = 401;
-      
+
       return next(err);
     }
   }
@@ -159,6 +146,8 @@ app.use(express.json());
 app.use(expressUrlEncodeSettings);
 // app.use(cookieParser('1234-5678-9101112-13141516'));
 app.use(sessionSettings);
+app.use(passport.initialize());
+app.use(passport.session());
 app.use('/', indexRouter); // They must be instantiated here so the user can access those routes before getting itself authenticated.
 app.use('/users', usersRouter); // They must be instantiated here so the user can access those routes before getting itself authenticated.
 app.use(auth);

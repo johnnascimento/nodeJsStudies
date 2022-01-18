@@ -1,6 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
-    userRouter = express.Router();
+    userRouter = express.Router(),
+    passport = require('passport');
 
 
 // Importing controllers
@@ -13,7 +14,7 @@ userRouter.use(bodyParser.json());
 userRouter
     .get('/', ctrlUsers.logIn)
     .post('/signup', ctrlUsers.signUp)
-    .post('/login', ctrlUsers.logIn)
+    .post('/login', passport.authenticate('local'), ctrlUsers.logIn)
     .get('/logout', ctrlUsers.logOut);
 
 module.exports = userRouter;
