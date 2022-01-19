@@ -43,14 +43,28 @@ var sessionSettings = session({
 var auth = (req, res, next) => {
   var reqSessionUser = req.user;
 
-  console.log('reqSessionUser', reqSessionUser);
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('******** req.user', req.user);
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('********************************');
+  console.log('******** req.user', req.body);
+  // console.log('reqSessionUser', reqSessionUser);
 
   if (!reqSessionUser) {
     var err = new Error('You are not authenticated!');
     err.status = 403;
-    return next(err);
-  } else {
     next(err);
+  } else {
+      next();
   }
 };
 
