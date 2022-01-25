@@ -13,28 +13,28 @@ dishRouter.use(bodyParser.json());
 // /dishes route
 dishRouter.route('/')
     .get(ctrlDish.getDishes)
-    .post(ctrlDish.postDishes)
-    .put(ctrlDish.putDishes)
-    .delete(ctrlDish.deleteDishes);
+    .post(authenticate.verifyUser, ctrlDish.postDishes)
+    .put(authenticate.verifyUser, ctrlDish.putDishes)
+    .delete(authenticate.verifyUser, ctrlDish.deleteDishes);
 
 // /dishes/:dishId route
 dishRouter.route('/:dishId')
     .get(ctrlDish.getDish)
-    .post(ctrlDish.postDish)
-    .put(ctrlDish.putDish)
-    .delete(ctrlDish.deleteDish)
+    .post(authenticate.verifyUser, ctrlDish.postDish)
+    .put(authenticate.verifyUser, ctrlDish.putDish)
+    .delete(authenticate.verifyUser, ctrlDish.deleteDish)
 
 // /dishes/:dishId/comments
 dishRouter.route('/:dishId/comments')
     .get(ctrlDish.getDishComments)
-    .post(ctrlDish.postDishComments)
-    .put(ctrlDish.putDishComments)
-    .delete(ctrlDish.deleteDishComments)
+    .post(authenticate.verifyUser, ctrlDish.postDishComments)
+    .put(authenticate.verifyUser, ctrlDish.putDishComments)
+    .delete(authenticate.verifyUser, ctrlDish.deleteDishComments)
 
 // dishes/:dishId/comments/:commentId
 dishRouter.route('/:dishId/comments/:commentId')
     .get(ctrlDish.getSingleComment)
-    .post(ctrlDish.postSingleComment)
-    .put(ctrlDish.putSingleComment)
-    .delete(ctrlDish.deleteSingleComment)
+    .post(authenticate.verifyUser, ctrlDish.postSingleComment)
+    .put(authenticate.verifyUser, ctrlDish.putSingleComment)
+    .delete(authenticate.verifyUser, ctrlDish.deleteSingleComment)
 module.exports = dishRouter;

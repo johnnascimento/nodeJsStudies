@@ -1,7 +1,9 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     userRouter = express.Router(),
-    passport = require('passport');
+    passport = require('passport'),
+    authenticate = require('../authenticate');
+
 
 
 // Importing controllers

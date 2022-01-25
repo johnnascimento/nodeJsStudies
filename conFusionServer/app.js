@@ -7,12 +7,13 @@ var session = require('express-session'); // Install typing npm install express-
 var FileStore = require('session-file-store')(session);
 var passport = require('passport');
 var authenticate = require('./authenticate');
+var config = require('./config');
 
 const mongoose = require('mongoose');
 
 const Dishes = require('./models/dishes');
 
-const url = 'mongodb://localhost:27017/conFusion';
+const url = config.mongoUrl;
 const connect = mongoose.connect(url);
 
 connect.then(
@@ -42,22 +43,6 @@ var sessionSettings = session({
 // Authentication method using session
 var auth = (req, res, next) => {
   var reqSessionUser = req.user;
-
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('******** req.user', req.user);
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('********************************');
-  console.log('******** req.user', req.body);
-  // console.log('reqSessionUser', reqSessionUser);
 
   if (!reqSessionUser) {
     var err = new Error('You are not authenticated!');

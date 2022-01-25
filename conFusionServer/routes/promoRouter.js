@@ -13,15 +13,15 @@ promoRouter.use(bodyParser.json());
 // promotions route
 promoRouter.route('/')
     .get(ctrlPromotion.getPromotions)
-    .post(ctrlPromotion.postPromotions)
-    .put(ctrlPromotion.putPromotions)
-    .delete(ctrlPromotion.deletePromotions);
+    .post(authenticate.verifyUser, ctrlPromotion.postPromotions)
+    .put(authenticate.verifyUser, ctrlPromotion.putPromotions)
+    .delete(authenticate.verifyUser, ctrlPromotion.deletePromotions);
 
 // promotions/:promotionId route
 promoRouter.route('/:promotionId')
     .get(ctrlPromotion.getPromotion)
-    .post(ctrlPromotion.postPromotion)
-    .put(ctrlPromotion.putPromotion)
-    .delete(ctrlPromotion.deletePromotion)
+    .post(authenticate.verifyUser, ctrlPromotion.postPromotion)
+    .put(authenticate.verifyUser, ctrlPromotion.putPromotion)
+    .delete(authenticate.verifyUser, ctrlPromotion.deletePromotion)
 
 module.exports = promoRouter;
