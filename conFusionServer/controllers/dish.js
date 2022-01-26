@@ -5,6 +5,7 @@ const { rmSync } = require('fs'),
 module.exports = {
     getDishes: (req, res, next) => {
         Dishes.find({})
+        .populate('comments.author')
         .then(
             (dishes) => {
                 console.log('hit dishes get verb', dishes)
@@ -53,6 +54,7 @@ module.exports = {
 
     getDish: (req, res, next) => {
         Dishes.findById(req.params.dishId)
+        .populate('comments.author')
         .then(
             (dish) => {
                 res.statusCode = 200;
@@ -100,6 +102,7 @@ module.exports = {
     // Comment entries
     getDishComments: (req, res, next) => {
         Dishes.findById(req.params.dishId)
+        .populate('coments.author')
         .then(
             (dish) => {
                 if (dish != null) {
@@ -123,13 +126,20 @@ module.exports = {
         .then(
             (dish) => {
                 if (dish != null) {
+                    req.body.author = req.user._id;
                     dish.comments.push(req.body)
                     dish.save()
                     .then(
-                        (updatedDish) => {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(updatedDish);
+                        (savedDish) => {
+                            Dishes.findById(savedDish._id)
+                            .populate('comments.author')
+                            .then(
+                                (updatedDish) => {
+                                    res.statusCode = 200;
+                                    res.setHeader('Content-Type', 'application/json');
+                                    res.json(updatedDish);
+                                }
+                            )
                         },
                         (err) => next(err)
                     )
@@ -183,6 +193,7 @@ module.exports = {
 
     getSingleComment: (req, res, next) => {
         Dishes.findById(req.params.dishId)
+        .populate('comments.author')
         .then(
             (dish) => {
                 var commentErr = '';
@@ -225,12 +236,19 @@ module.exports = {
                     if (req.body.comment) {
                         dish.comments.id(req.params.commentId).comment = req.body.comment;
                     }
+
                     dish.save()
                     .then(
-                        (updatedDish) => {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(updatedDish);
+                        (savedDish) => {
+                            Dishes.findById(savedDish._id)
+                            .populate('comments.author')
+                            .then(
+                                (updatedDish) => {
+                                    res.statusCode = 200;
+                                    res.setHeader('Content-Type', 'application/json');
+                                    res.json(updatedDish);
+                                }
+                            )
                         },
                         (err) => next(err)
                     );
@@ -258,10 +276,16 @@ module.exports = {
                     dish.comments.id(req.params.commentId).remove();
                     dish.save()
                     .then(
-                        (updatedDish) => {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(updatedDish);
+                        (savedDish) => {
+                            Dishes.findById(savedDish._id)
+                            .populate('comments.author')
+                            .then(
+                                (updatedDish) => {
+                                    res.statusCode = 200;
+                                    res.setHeader('Content-Type', 'application/json');
+                                    res.json(updatedDish);
+                                }
+                            )
                         },
                         (err) => next(err)
                     )
