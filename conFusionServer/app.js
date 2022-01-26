@@ -147,9 +147,9 @@ app.use(expressUrlEncodeSettings);
 app.use(sessionSettings);
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/', indexRouter); // They must be instantiated here so the user can access those routes before getting itself authenticated.
-app.use('/users', usersRouter); // They must be instantiated here so the user can access those routes before getting itself authenticated.
-app.use(auth);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+// app.use(auth);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);

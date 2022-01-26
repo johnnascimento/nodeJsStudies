@@ -1,6 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
-    promoRouter = express.Router();
+    promoRouter = express.Router(),
+    authenticate = require('../authenticate');
 
 console.log('bodyParser', bodyParser.json);
 

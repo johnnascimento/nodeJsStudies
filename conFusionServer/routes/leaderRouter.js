@@ -1,6 +1,7 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
-    dishRouter = express.Router();
+    dishRouter = express.Router(),
+    authenticate = require('../authenticate');
 
 console.log('bodyParser', bodyParser.json);
 

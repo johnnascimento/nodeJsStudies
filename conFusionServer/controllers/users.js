@@ -1,7 +1,8 @@
 const { rmSync } = require('fs'),
     mongoose = require('mongoose'),
     User = require('../models/user'),
-    passport = require('passport');
+    passport = require('passport'),
+    authenticate = require('../authenticate');
 
 module.exports = {
     logIn: (req, res, next) => {
