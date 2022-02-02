@@ -68,5 +68,26 @@ module.exports = {
             err.status = 403; // Forbidden operation
             next(err);
         }
+    },
+
+    getUsers: (req, res, next) => {
+        console.log('getUsers', req);
+
+        User.find({})
+        .then(
+            (users) => {
+                console.log('users', users);
+
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json({
+                    message: 'Check out all the users registered at the moment in our DB',
+                    users: users,
+                    success: true
+                });
+            },
+            (err) => next(err)
+        )
+        .catch((err) => next(err))
     }
 };

@@ -14,15 +14,15 @@ dishRouter.use(bodyParser.json());
 // leaders route
 dishRouter.route('/')
     .get(ctrlLeader.getLeaders)
-    .post(authenticate.verifyUser, ctrlLeader.postLeaders)
-    .put(authenticate.verifyUser, ctrlLeader.putLeaders)
-    .delete(authenticate.verifyUser, ctrlLeader.deleteLeaders);
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeaders)
+    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeaders)
+    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeaders);
 
 // leaders/:leaderId route
 dishRouter.route('/:leaderId')
     .get(ctrlLeader.getLeader)
-    .post(authenticate.verifyUser, ctrlLeader.postLeader)
-    .put(authenticate.verifyUser, ctrlLeader.putLeader)
-    .delete(authenticate.verifyUser, ctrlLeader.deleteLeader)
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeader)
+    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeader)
+    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeader)
 
 module.exports = dishRouter;

@@ -14,23 +14,23 @@ dishRouter.use(bodyParser.json());
 // /dishes route
 dishRouter.route('/')
     .get(ctrlDish.getDishes)
-    .post(authenticate.verifyUser, ctrlDish.postDishes)
-    .put(authenticate.verifyUser, ctrlDish.putDishes)
-    .delete(authenticate.verifyUser, ctrlDish.deleteDishes);
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.postDishes)
+    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.putDishes)
+    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.deleteDishes);
 
 // /dishes/:dishId route
 dishRouter.route('/:dishId')
     .get(ctrlDish.getDish)
-    .post(authenticate.verifyUser, ctrlDish.postDish)
-    .put(authenticate.verifyUser, ctrlDish.putDish)
-    .delete(authenticate.verifyUser, ctrlDish.deleteDish)
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.postDish)
+    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.putDish)
+    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.deleteDish)
 
 // /dishes/:dishId/comments
 dishRouter.route('/:dishId/comments')
     .get(ctrlDish.getDishComments)
-    .post(authenticate.verifyUser, ctrlDish.postDishComments)
-    .put(authenticate.verifyUser, ctrlDish.putDishComments)
-    .delete(authenticate.verifyUser, ctrlDish.deleteDishComments)
+    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.postDishComments)
+    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.putDishComments)
+    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlDish.deleteDishComments)
 
 // dishes/:dishId/comments/:commentId
 dishRouter.route('/:dishId/comments/:commentId')
