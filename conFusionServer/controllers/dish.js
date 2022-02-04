@@ -8,8 +8,6 @@ module.exports = {
         .populate('comments.author')
         .then(
             (dishes) => {
-                console.log('hit dishes get verb', dishes)
-
                 res.statusCode = 200;
                 res.setHeader('content-type', 'application/json');
                 res.json(dishes);
@@ -23,8 +21,6 @@ module.exports = {
         Dishes.create(req.body)
         .then(
             (dish) => {
-                console.log('Dish Created ', dish);
-
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
                 res.json(dish);
@@ -106,8 +102,6 @@ module.exports = {
         .then(
             (dish) => {
                 if (dish != null) {
-                    console.log('getDishComments, dish.comments', dish.comments);
-
                     res.statusCode = 200;
                     res.setHeader('Content-Type', 'application/json');
                     res.json(dish.comments);
@@ -162,7 +156,6 @@ module.exports = {
     },
 
     deleteDishComments: (req, res, next) => {
-        console.log('deleteDishComments', req.params.dishId);
         Dishes.findById(req.params.dishId)
         .then(
             (dish) => {
@@ -227,31 +220,42 @@ module.exports = {
         .then(
             (dish) => {
                 var commentErr = '';
+                console.log('putSingleComment:dish', dish);
+                console.log('putSingleComment:req.user', req.user);
+                console.log('putSingleComment:dish.comments.id(req.params.commentId).author', dish.comments.id(req.params.commentId).author);
+                console.log('putSingleComment:req.user._id', req.user._id);
+                console.log('putSingleComment:dish.comments.id(req.params.commentId).author.equals(req.user._id)', dish.comments.id(req.params.commentId).author.equals(req.user._id));
 
                 if (dish != null && dish.comments.id(req.params.commentId) != null) {
-                    if (req.body.rating) {
-                        dish.comments.id(req.params.commentId).rating = req.body.rating;
-                    }
+                    if(dish.comments.id(req.params.commentId).author.equals(req.user._id)) {
+                        if (req.body.rating) {
+                            dish.comments.id(req.params.commentId).rating = req.body.rating;
+                        }
 
-                    if (req.body.comment) {
-                        dish.comments.id(req.params.commentId).comment = req.body.comment;
-                    }
+                        if (req.body.comment) {
+                            dish.comments.id(req.params.commentId).comment = req.body.comment;
+                        }
 
-                    dish.save()
-                    .then(
-                        (savedDish) => {
-                            Dishes.findById(savedDish._id)
-                            .populate('comments.author')
-                            .then(
-                                (updatedDish) => {
-                                    res.statusCode = 200;
-                                    res.setHeader('Content-Type', 'application/json');
-                                    res.json(updatedDish);
-                                }
-                            )
-                        },
-                        (err) => next(err)
-                    );
+                        dish.save()
+                        .then(
+                            (savedDish) => {
+                                Dishes.findById(savedDish._id)
+                                .populate('comments.author')
+                                .then(
+                                    (updatedDish) => {
+                                        res.statusCode = 200;
+                                        res.setHeader('Content-Type', 'application/json');
+                                        res.json(updatedDish);
+                                    }
+                                )
+                            },
+                            (err) => next(err)
+                        );
+                    } else {
+                        commentErr = new Error('You don\'t have permission to change the comment with id: ' + req.params.commentId);
+                        commentErr.status = 401;
+                        return next(commentErr);
+                    }
                 } else if (dish == null) {
                     commentErr = new Error('Dish ' + req.params.dishId + ' not found');
                     commentErr.status = 404;
