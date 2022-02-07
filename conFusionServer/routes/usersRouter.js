@@ -4,8 +4,6 @@ const express = require('express'),
     passport = require('passport'),
     authenticate = require('../authenticate');
 
-
-
 // Importing controllers
 var ctrlUsers = require('../controllers/users');
 console.log('ctrlUsers', ctrlUsers);
