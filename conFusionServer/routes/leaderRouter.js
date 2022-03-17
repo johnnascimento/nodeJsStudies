@@ -1,7 +1,8 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     dishRouter = express.Router(),
-    authenticate = require('../authenticate');
+    authenticate = require('../authenticate'),
+    cors = require('./cors');
 
 console.log('bodyParser', bodyParser.json);
 
@@ -13,16 +14,18 @@ dishRouter.use(bodyParser.json());
 
 // leaders route
 dishRouter.route('/')
-    .get(ctrlLeader.getLeaders)
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeaders)
-    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeaders)
-    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeaders);
+    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .get(cors.cors, ctrlLeader.getLeaders)
+    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeaders)
+    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeaders)
+    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeaders);
 
 // leaders/:leaderId route
 dishRouter.route('/:leaderId')
-    .get(ctrlLeader.getLeader)
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeader)
-    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeader)
-    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeader)
+    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .get(cors.cors, ctrlLeader.getLeader)
+    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeader)
+    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeader)
+    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeader)
 
 module.exports = dishRouter;

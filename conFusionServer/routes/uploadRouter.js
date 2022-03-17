@@ -3,6 +3,7 @@ const express = require('express'),
     authenticate = require('../authenticate'),
     uploadRouter = express.Router(),
     multer = require('multer'),
+    cors = require('./cors'),
 
     storage = multer.diskStorage({
         destination: (req, file, cb) => {
@@ -43,9 +44,10 @@ uploadRouter.use(bodyParser.json());
 
 /* GET Upload listing. */
 uploadRouter.route('/')
-    .get(authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.getImage)
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, upload.single('imageFile'), ctrlUploadImage.handleUploadedImage)
-    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.putImage)
-    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.deleteImage);
+    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .get(cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.getImage)
+    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, upload.single('imageFile'), ctrlUploadImage.handleUploadedImage)
+    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.putImage)
+    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.deleteImage);
 
 module.exports = uploadRouter;

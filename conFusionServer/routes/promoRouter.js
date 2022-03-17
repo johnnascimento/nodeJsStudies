@@ -1,7 +1,8 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     promoRouter = express.Router(),
-    authenticate = require('../authenticate');
+    authenticate = require('../authenticate'),
+    cors = require('./cors');
 
 console.log('bodyParser', bodyParser.json);
 
@@ -13,16 +14,18 @@ promoRouter.use(bodyParser.json());
 
 // promotions route
 promoRouter.route('/')
-    .get(ctrlPromotion.getPromotions)
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.postPromotions)
-    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.putPromotions)
-    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.deletePromotions);
+    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .get(cors.cors, ctrlPromotion.getPromotions)
+    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.postPromotions)
+    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.putPromotions)
+    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.deletePromotions);
 
 // promotions/:promotionId route
 promoRouter.route('/:promotionId')
-    .get(ctrlPromotion.getPromotion)
-    .post(authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.postPromotion)
-    .put(authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.putPromotion)
-    .delete(authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.deletePromotion)
+    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .get(cors.cors, ctrlPromotion.getPromotion)
+    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.postPromotion)
+    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.putPromotion)
+    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlPromotion.deletePromotion)
 
 module.exports = promoRouter;
