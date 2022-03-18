@@ -4,24 +4,20 @@ const app = express();
 
 const whitelist = [
     'http://localhost:3000',
+    'https://localhost:3000',
+    'http://localhost:3443',
     'https://localhost:3443'
 ];
 
-var corsOptionsDelegate = (req, cb) => {
+var corsOptionsDelegate = function (req, callback) {
     var corsOptions;
-
     if (whitelist.indexOf(req.header('Origin')) !== -1) {
-        corsOptions = {
-            origin: true
-        };
+      corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
     } else {
-        corsOptions = {
-            origin: false
-        };
+      corsOptions = { origin: false } // disable CORS for this request
     }
-
-    cb(null, corsOptions);
-};
+    callback(null, corsOptions) // callback expects two parameters: error and options
+  }
 
 var sendOkStatus = (req, res) => {
     console.log('Status 200', 200);
@@ -31,8 +27,7 @@ var sendOkStatus = (req, res) => {
 
 exports.cors = cors();
 exports.corsWithOptions = cors(corsOptionsDelegate);
-
-exports.sendOkStatus = sendOkStatus;
+module.exports.sendOkStatus = sendOkStatus;
 
 
 

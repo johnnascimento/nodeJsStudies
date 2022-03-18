@@ -14,18 +14,18 @@ dishRouter.use(bodyParser.json());
 
 // leaders route
 dishRouter.route('/')
-    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .options(cors.corsWithOptions, cors.sendOkStatus)
     .get(cors.cors, ctrlLeader.getLeaders)
-    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeaders)
-    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeaders)
-    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeaders);
+    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeaders)
+    .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeaders)
+    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeaders);
 
 // leaders/:leaderId route
 dishRouter.route('/:leaderId')
-    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .options(cors.corsWithOptions, cors.sendOkStatus)
     .get(cors.cors, ctrlLeader.getLeader)
-    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeader)
-    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeader)
-    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeader)
+    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.postLeader)
+    .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.putLeader)
+    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlLeader.deleteLeader)
 
 module.exports = dishRouter;

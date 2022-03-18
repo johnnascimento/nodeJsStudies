@@ -44,10 +44,10 @@ uploadRouter.use(bodyParser.json());
 
 /* GET Upload listing. */
 uploadRouter.route('/')
-    .options(cors.corsWithoptions, cors.sendOkStatus)
+    .options(cors.corsWithOptions, cors.sendOkStatus)
     .get(cors.cors, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.getImage)
-    .post(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, upload.single('imageFile'), ctrlUploadImage.handleUploadedImage)
-    .put(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.putImage)
-    .delete(cors.corsWithoptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.deleteImage);
+    .post(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, upload.single('imageFile'), ctrlUploadImage.handleUploadedImage)
+    .put(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.putImage)
+    .delete(cors.corsWithOptions, authenticate.verifyUser, authenticate.verifyAdmin, ctrlUploadImage.deleteImage);
 
 module.exports = uploadRouter;
