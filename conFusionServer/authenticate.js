@@ -3,6 +3,7 @@ const passport = require('passport'),
     User = require('./models/user'),
     JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt,
+    FacebookTokenStrategy = require('passport-facebook-token'),
     jwt = require('jsonwebtoken'), // used to create sign and verify tokens
     config = require('./config');
 
@@ -25,16 +26,6 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
         console.log("JWT payload: ", jwt_payload);
 
         User.findOne({_id: jwt_payload._id}, (err, user) => {
-            console.log('***********************************');
-            console.log('***********************************');
-            console.log('***********************************');
-            console.log('***********************************');
-            console.log('user', user);
-            console.log('***********************************');
-            console.log('***********************************');
-            console.log('***********************************');
-            console.log('***********************************');
-
             if (err) {
                 return done(err, false);
             }
@@ -49,12 +40,6 @@ exports.jwtPassport = passport.use(new JwtStrategy(opts,
 );
 
 exports.verifyAdmin = (req, res, next) => {
-    console.log('verifyAdmin');
-    console.log('req', req);
-    console.log('res', res);
-    console.log('next', next);
-    console.log('req.user', req.user);
-
     if (req.user && req.user.admin) {
         return next();
     }
@@ -66,3 +51,32 @@ exports.verifyAdmin = (req, res, next) => {
 };
 
 exports.verifyUser = passport.authenticate('jwt', {session: false});
+
+exports.facebookPassport = passport.use(new FacebookTokenStrategy(
+    {
+        clientID: config.facebook.clientId,
+        clientSecret: config.facebook.clientSecret
+    },
+    (accessToken, refreshToken, profile, done) => {
+        User.findOne({facebookId: profile.id}, (err, user) => {
+            if (err) {
+                return done(err, false);
+            }
+            if (!err && user !== null) {
+                return done(null, user);
+            }
+            else {
+                user = new User({ username: profile.displayName });
+                user.facebookId = profile.id;
+                user.firstname = profile.name.givenName;
+                user.lastname = profile.name.familyName;
+                user.save((err, user) => {
+                    if (err)
+                        return done(err, false);
+                    else
+                        return done(null, user);
+                })
+            }
+        });
+    }
+));
