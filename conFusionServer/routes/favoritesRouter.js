@@ -23,6 +23,7 @@ favoritesRouter.route('/')
 // /dishes/:dishId route
 favoritesRouter.route('/:dishId')
     .options(cors.corsWithOptions, cors.sendOkStatus)
+    .get(cors.cors, authenticate.verifyUser, ctrlFavorites.getFavorite)
     .post(cors.cors, ctrlFavorites.postFavorite)
     .put(cors.corsWithOptions, authenticate.verifyUser, ctrlFavorites.putFavorite)
     .delete(cors.corsWithOptions, authenticate.verifyUser, ctrlFavorites.deleteFavorite)
